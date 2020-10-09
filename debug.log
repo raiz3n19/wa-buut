@@ -1,0 +1,6 @@
+[1010/002902.284:ERROR:file_io_win.cc(161)] CreateFile C:\Users\ASUS\AppData\Local\Temp\puppeteer_dev_chrome_profile-Z1YKhV\Crashpad\settings.dat: The system cannot find the path specified. (0x3)
+[1010/002902.313:ERROR:file_io_win.cc(170)] CreateFile C:\Users\ASUS\AppData\Local\Temp\puppeteer_dev_chrome_profile-Z1YKhV\Crashpad\reports\a8c62cc3-7445-42df-91e3-6b15382de31f.dmp: The system cannot find the path specified. (0x3)
+[1010/002902.313:ERROR:crash_report_exception_handler.cc(97)] PrepareNewCrashReport failed
+[1010/014801.405:ERROR:file_io_win.cc(161)] CreateFile C:\Users\ASUS\AppData\Local\Temp\puppeteer_dev_chrome_profile-F28XhQ\Crashpad\settings.dat: The system cannot find the path specified. (0x3)
+[1010/014801.420:ERROR:file_io_win.cc(170)] CreateFile C:\Users\ASUS\AppData\Local\Temp\puppeteer_dev_chrome_profile-F28XhQ\Crashpad\reports\f633c55f-08bc-495d-b2eb-fe27e60b1e24.dmp: The system cannot find the path specified. (0x3)
+[1010/014801.420:ERROR:crash_report_exception_handler.cc(97)] PrepareNewCrashReport failed

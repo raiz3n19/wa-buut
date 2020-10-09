@@ -119,7 +119,7 @@ function  notListed(client, from, cmd, pushname) {
         client.sendText(from, 'Ora Ora Ora Ora')
         return
     } else if (newcmd === '#commands') {
-        client.sendText(from, '👋️Hi *${pushname}*, I\'m Emilia!\n\n*Prefix = #* 💎\n\n*Usable Commands!*✨\n\n*_CMD: #sticker_*\n*Description: Converts images into stickers*\n\n*_CMD: #anime <anime name>_*\n*Description: Displays the information of the given anime*\n\n*_CMD: #flip_*\n*Description: Flips a coin fo you*\n\n*_CMD: #roll_*\n*Description: Rolls a dice*\n\n*_CMD: #neko_*\n*Description Returns a random cat image*\n\n*_CMD: #meme_*\n*Description: Displays and anime meme from r\/wholesomeanimememes*\n\n*_CMD: #sr <subreddit>_*\n*Description: Returns a post from the given subreddit*\n\n*_CMD: #waifu_*\n*Description: Returns a picture of a waifu*\n\n*_CMD: #covid <country name>_*\n*Description: Displays the live stats Covid-19 of the given country*\n\n*_CMD: #quotes_*\n*Description: Returns a quote that will either give you existential crises or wisdom*\n\n*_CMD #pokemon_*\n*Description: Displays picture of a random pokemon*\n\n*_CMD: #wallpaper [Beta]_*\n*Displays a random anime wallpapers*\n\n*_CMD: #Seasonal anime_* [Bugged]\n*Description: Returns a list of seasonal animes*\n\n*_CMD: #info_*\n*Description: Displays the information of the bot*\n\n*_CMD: #TnC_*\n*Description: Displays the Terms and Conditions*\n\nThere are many hidden and fun keywords ;)\n\nIf yore having any trouble with the bot, please join our support group and state your issue\n\n*Support: https://bit.ly/2CaPFyk*\n\nHope you have a great day!✨\n\n')
+        client.sendText(from, '👋️Hi *${pushname}*, I\'m Clara Lopez!\n\n*Prefix = #* \n\n*Command yang ada!*✨\n\n*_CMD: #sticker_*\n*Deskripsi: Buat stiker dari foto*\n\n*_CMD: #anime <nama anime>_*\n*Deskripsi: Nampilin info anime*\n\n*_CMD: #ptl1_*\n*Deskripsi: you know lah dude!*\n\n*_CMD: #roll_*\n*Deskripsi: Lempar dadu kuy*\n\n*_CMD: #neko_*\n*Deskripsi: Random foto kucing*\n\n*_CMD: #meme_*\n*Deskripsi: Nampilin meme anime dari r\/wholesomeanimememes*\n\n*_CMD: #waifu_*\n*Deskripsi: Random foto waifu!*\n\n*_CMD: #covid <nama negara>_*\n*Deskripsi: Nampilin statistik soal wabah COVID-19, sesuai Negara yang lu pilih!*\n\n*_CMD: #quotes_*\n*Deskripsi: Buat Quotes*\n\n*_CMD: #wallpaper [Beta]_*\n*Nampilin Wallpaper Anime*\n\n*_CMD: #Seasonal anime_* [Bugged]\n*Description: Returns a list of seasonal animes*\n\n*Creator: https://fb.com/rai.aspx5*\n\nDahlah segitu aja, cape anying!\n\n')
         return
     } else if (newcmd === '#Seasonal anime') {
         client.sendText(from, 'Summer 2020 \n Re:Zero kara Hajimeru Isekai Seikatsu 2nd Season \n Yahari Ore no Seishun Love Comedy wa Machigatteiru. Kan \n The God of High School \n Sword Art Online: Alicization - War of Underworld 2nd Season \n Enen no Shouboutai: Ni no Shou \n Maou Gakuin no Futekigousha: Shijou Saikyou no Maou no Shiso, Tensei shite Shison-tachi no Gakkou e \n Kanojo, Okarishimasu \n Deca-Dence \n Uzaki-chan wa Asobitai! \n Monster Musume no Oishasan')
@@ -162,11 +162,11 @@ function  notListed(client, from, cmd, pushname) {
     } else if (newcmd === 'to protect the world from devastation') {
         client.sendText(from, 'To unite all peoples within our nation!')
         return
-    } else if (newcmd === 'to denounce the evils of truth and love') {
-        client.sendText(from, 'to extend our reach to the stars above!')
+    } else if (newcmd === 'tarkam lah') {
+        client.sendText(from, 'gaskeun bos')
         return
-    } else if (newcmd === 'team Rocket blasts off at the speed of light') {
-        client.sendText(from, 'Surrender now, or prepare to fight!')
+    } else if (newcmd === 'mana akbar?') {
+        client.sendText(from, 'yahahah nyariin chicken law')
         return
     } else if (newcmd === '#codesyaknow') {
         var culture_code;
