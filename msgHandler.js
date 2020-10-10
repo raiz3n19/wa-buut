@@ -201,6 +201,124 @@ module.exports = msgHandler = async (client, message) => {
 
 ${desc}`)
         break
+//DOWNLOADER
+        case 'ytmp3':
+            if (args.length >= 1){
+                var param = body.substring(body.indexOf(' '), body.length)
+                try {
+                    client.reply(from, 'Tunggu sebentar yak...', message.id)
+                    const resp = await get.get('https://mhankbarbar.herokuapp.com/api/yta?url='+ param).json()
+                    console.log(resp)
+                    if (resp.file) {
+                        client.reply(from, 'Videonya ga valid!', message.id)
+                    } else {
+                        const { title, thumb, filesize, result } = await resp
+                    if (Number(filesize.split(' MB')[0]) >= 30.00) return client.reply(from, 'Maaf durasi video sudah melebihi batas maksimal!', id)
+                    client.sendFileFromUrl(from, thumb, 'thumb.jpg', `➸ Title : ${title}\n➸ Filesize : ${filesize}\n\nSilahkan tunggu sebentar proses pengiriman file membutuhkan waktu beberapa menit.`, id)
+                    await client.sendFileFromUrl(from, result, `${title}.mp3`, '', id).catch(() => client.reply(from, mess.error.Yt3, id))
+                    }
+                } catch {
+                    client.reply(from, 'Terjadi kesalahan!', message.id)
+                }
+            }
+            break
+        case 'ytmp4' :
+            if (args.length !== 1) return client.reply(from, 'Maaf, format pesan salah silahkan periksa *!menu*. [Wrong Format]', id)
+            if (!isUrl(url) && !url.includes('youtube.com')) return client.reply(from, 'Maaf, url yang kamu kirim tidak valid. [Invalid Link]', id)
+            await client.reply(from, `_Scraping Metadata..._`, id)
+            downloader.ytmp4(url).then(async (ytMetav) => {
+                const title = ytMetav.title
+                const thumbnail = ytMetav.thumb
+                const links = ytMetav.result
+                const filesize = ytMetav.filesize
+                const res = ytMetav.resolution
+                const status = ytMetav.status
+                if ( status !== 200) client.reply(from, 'Maaf, link anda tidak valid.', id)
+                if (Number(filesize.split(' MB')[0]) >= 40.00) return reject('Maaf durasi video sudah melebihi batas maksimal !')
+                client.sendFileFromUrl(from, thumbnail, 'thumbnail.jpg', `Judul: ${title}\nUkuran File: ${filesize}\nResolusi: ${res}\n\nSilakan di tunggu lagi proses boss....`, null, true)
+                await client.sendFileFromUrl(from, links, `${title}.mp4`, null, null, true)
+                .catch(() => client.reply(from, 'Terjadi kesalahan mungkin link yang anda kirim tidak valid!', id))
+          })
+          break
+        case 'instagram':
+        case 'ig':
+            if (args.length >= 1) {
+                var param = body.substring(body.indexOf(' '), body.length)
+                try {
+                    client.reply(from, 'Tunggu sebentar, sedang di proses..', message.id)
+                    const resp = await get.get('https://villahollanda.com/api.php?url='+ param).json()
+                    console.log(resp)
+                    if (resp.mediatype == 'photo') {
+                        var ext = '.png'
+                    }else{
+                        var ext = '.mp4'
+                    }
+                        client.sendFileFromUrl(from, resp.descriptionc, `igeh${ext}`)
+                } catch {
+                    client.reply(from, 'Terjadi kesalahan!')
+                    }
+                }
+            break
+        case 'fb':
+        case 'facebook':
+            if (args.length !== 1) return client.reply(from, 'Maaf, format pesan salah silahkan periksa *#menu*. [Wrong Format]', id)
+            if (!isUrl(url) && !url.includes('facebook.com')) return client.reply(from, 'Maaf, url yang kamu kirim tidak valid. [Invalid Link]', id)
+            await client.reply(from, `_Scraping Metadata..._`, id)
+            downloader.facebook(url).then(async (videoMeta) => {
+                const title = videoMeta.response.title
+                const thumbnail = videoMeta.response.thumbnail
+                const links = videoMeta.response.links
+                const shorts = []
+                for (let i = 0; i < links.length; i++) {
+                    const shortener = await urlShortener(links[i].url)
+                    console.log('Shortlink: ' + shortener)
+                    links[i].short = shortener
+                    shorts.push(links[i])
+                }
+                const link = shorts.map((x) => `${x.resolution} Quality: ${x.short}`)
+                const caption = `Text: ${title} \n\nLink Download: \n${link.join('\n')} \n\nProcessed for ${processTime(t, moment())} _Second_`
+                await client.sendFileFromUrl(from, thumbnail, 'videos.jpg', caption, null, null, true)
+                    .then((serialized) => console.log(`Sukses Mengirim File dengan id: ${serialized} diproses selama ${processTime(t, moment())}`))
+                    .catch((err) => console.error(err))
+            })
+                .catch((err) => client.reply(from, `Error, url tidak valid atau tidak memuat video. [Invalid Link or No Video] \n\n${err}`, id))
+            break
+        case 'twt':
+        case 'twitter':
+        case 'twiter':
+            if (args.length !== 1) return client.reply(from, 'Maaf, format pesan salah silahkan periksa *!menu*. [Wrong Format]', id)
+            if (!isUrl(url) & !url.includes('twitter.com') || url.includes('t.co')) return client.reply(from, 'Maaf, url yang kamu kirim tidak valid. [Invalid Link]', id)
+            await client.reply(from, `_Scraping Metadata..._`, id)
+            downloader.tweet(url).then(async (data) => {
+                if (data.type === 'video') {
+                    const content = data.variants.filter(x => x.content_type !== 'application/x-mpegURL').sort((a, b) => b.bitrate - a.bitrate)
+                    const result = await urlShortener(content[0].url)
+                    console.log('Shortlink: ' + result)
+                    await client.sendFileFromUrl(from, content[0].url, 'video.mp4', `Link Download: ${result} \n\nProcessed for ${processTime(t, moment())} _Second_`, null, null, true)
+                        .then((serialized) => console.log(`Sukses Mengirim File dengan id: ${serialized} diproses selama ${processTime(t, moment())}`))
+                        .catch((err) => console.error(err))
+                } else if (data.type === 'photo') {
+                    for (let i = 0; i < data.variants.length; i++) {
+                        await client.sendFileFromUrl(from, data.variants[i], data.variants[i].split('/media/')[1], '', null, null, true)
+                            .then((serialized) => console.log(`Sukses Mengirim File dengan id: ${serialized} diproses selama ${processTime(t, moment())}`))
+                            .catch((err) => console.error(err))
+                    }
+                }
+            })
+                .catch(() => client.sendText(from, 'Maaf, link tidak valid atau tidak ada media di link yang kamu kirim. [Invalid Link]'))
+            break
+        case 'tiktok':
+            if (args.length !== 1) return client.reply(from, 'Maaf, format pesan salah silahkan periksa *!menu*. [Wrong Format]', id)
+            if (!isUrl(url) && !url.includes('tiktok.com')) return client.reply(from, 'Maaf, link yang kamu kirim tidak valid. [Invalid Link]', id)
+            await client.reply(from, `_Scraping Metadata..._`, id)
+            downloader.tiktok(url).then(async (videoMeta) => {
+                const filename = videoMeta.authorMeta.name + '.mp4'
+                const caps = `*Metadata:*\nUsername: ${videoMeta.authorMeta.name} \nMusic: ${videoMeta.musicMeta.musicName} \nView: ${videoMeta.playCount.toLocaleString()} \nLike: ${videoMeta.diggCount.toLocaleString()} \nComment: ${videoMeta.commentCount.toLocaleString()} \nShare: ${videoMeta.shareCount.toLocaleString()} \nCaption: ${videoMeta.text.trim() ? videoMeta.text : '-'}`
+                await client.sendFileFromUrl(from, videoMeta.url, filename, videoMeta.NoWaterMark ? caps : `⚠ Video tanpa watermark tidak tersedia. \n\n${caps}`, '', { headers: { 'User-Agent': 'okhttp/4.5.0', referer: 'https://www.tiktok.com/' } }, true)
+                    .then((serialized) => console.log(`Sukses Mengirim File dengan id: ${serialized} diproses selama ${processTime(t, moment())}`))
+                    .catch((err) => console.error(err))
+            }).catch(() => client.reply(from, 'Gagal mengambil metadata, link yang kamu kirim tidak valid. [Invalid Link]', id))
+            break
         case 'bc':
             if(!isowner) return client.reply(from, 'Only Bot admins!', message.id)
             let msg = body.slice(4)
