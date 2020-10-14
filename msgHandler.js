@@ -139,6 +139,12 @@ module.exports = msgHandler = async (client, message) => {
                 }
             }
             break 
+        case 'call':
+		    const nomorspam = body.slice(7)
+            if (args.length === 0)  return client.reply(from, 'Kirim perintah #call (nomor)\nConntoh: #call 08972233421', id)
+            const spamno = await get.get('https://mhankbarbar.herokuapp.com/api/spamcall?no='+ nomorspam).json()
+		    await client.reply(from, `${spamno.logs}`, id)			
+            break
        case 'tts':
         	if (args.length == 0) return client.reply(from, 'Wrong Fromat!')
                 const ttsEn = require('node-gtts')('en')
