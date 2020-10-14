@@ -110,6 +110,19 @@ module.exports = msgHandler = async (client, message) => {
                 let cewej = itemsj[Math.floor(Math.random() *itemsj.length)]
                 client.sendFileFromUrl(from, cewej, 'jihyoo.jpeg', 'Halo sayang', id)
                 break
+         case 'jadwalshalat':
+            if (args.length === 0) return client.reply(from, '[❗] Kirim perintah *!jadwalShalat [daerah]*\ncontoh : *!jadwalShalat Tangerang*\nUntuk list daerah kirim perintah *!listDaerah*')
+            const daerah = body.slice(14)
+            const jadwalShalat = await get.get(`https://mhankbarbar.herokuapp.com/api/jadwalshalat?daerah=${daerah}`).json()
+            if (jadwalShalat.error) return client.reply(from, jadwalShalat.error, id)
+            const { Imsyak, Subuh, Dhuha, Dzuhur, Ashar, Maghrib, Isya } = await jadwalShalat
+            arrbulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+            tgl = new Date().getDate()
+            bln = new Date().getMonth()
+            thn = new Date().getFullYear()
+            const resultJadwal = `Jadwal shalat di ${daerah}, ${tgl}-${arrbulan[bln]}-${thn}\n\nImsyak : ${Imsyak}\nSubuh : ${Subuh}\nDhuha : ${Dhuha}\nDzuhur : ${Dzuhur}\nAshar : ${Ashar}\nMaghrib : ${Maghrib}\nIsya : ${Isya}`
+            client.reply(from, resultJadwal, id)
+            break
         case 'tsticker':
             if (isMedia && type == 'image') {
               try {
@@ -326,6 +339,14 @@ ${desc}`)
                     .then((serialized) => console.log(`Sukses Mengirim File dengan id: ${serialized} diproses selama ${processTime(t, moment())}`))
                     .catch((err) => console.error(err))
             }).catch(() => client.reply(from, 'Gagal mengambil metadata, link yang kamu kirim tidak valid. [Invalid Link]', id))
+            break
+     case 'igstalk':
+            if (args.length === 0)  return client.reply(from, 'Kirim perintah *!igStalk @username*\nConntoh *!igStalk @duar_amjay*', id)
+            const stalk = await get.get('https://mhankbarbar.herokuapp.com/api/stalk?username='+ args[1]).json()
+            if (stalk.error) return client.reply(from, stalk.error, id)
+            const { Biodata, Jumlah_Followers, Jumlah_Following, Jumlah_Post, Name, Username, Profile_pic } = stalk
+            const caps = `➸ *Nama* : ${Name}\n➸ *Username* : ${Username}\n➸ *Jumlah Followers* : ${Jumlah_Followers}\n➸ *Jumlah Following* : ${Jumlah_Following}\n➸ *Jumlah Postingan* : ${Jumlah_Post}\n➸ *Biodata* : ${Biodata}`
+            await client.sendFileFromUrl(from, Profile_pic, 'Profile.jpg', caps, id)
             break
         case 'bc':
             if(!isowner) return client.reply(from, 'Only Bot admins!', message.id)
